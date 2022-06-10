@@ -1,0 +1,25 @@
+import 'package:flutter/cupertino.dart';
+import 'package:majestic/models/auth_model.dart';
+import 'package:majestic/services/auth_service.dart';
+
+class AuthProvider with ChangeNotifier {
+  AuthModel? _user;
+
+  AuthModel? get user => _user;
+
+  void setUser(AuthModel user) {
+    _user = user;
+    notifyListeners();
+  }
+
+  Future<bool> login({String? email, String? password}) async {
+    try {
+      AuthModel data =
+          await AuthService().login(email: email, password: password);
+      _user = data;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+}
