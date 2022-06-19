@@ -3,8 +3,8 @@ import 'package:majestic/models/auth_model.dart';
 class CommentModel {
   int? id;
   String? comment;
-  int? destinationId;
-  int? userId;
+  String? destinationId;
+  String? userId;
   String? createdAt;
   String? updatedAt;
   AuthModel? user;

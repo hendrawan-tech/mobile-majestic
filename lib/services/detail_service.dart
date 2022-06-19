@@ -66,10 +66,12 @@ class DetailService {
     });
 
     var response = await http.post(
-      Uri.parse('${Config.baseUrl}/products/comments'),
+      Uri.parse('${Config.baseUrl}/users/comment'),
       headers: headers,
       body: body,
     );
+
+    print(body);
 
     print(response.body);
 

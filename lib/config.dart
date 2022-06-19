@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 
 class Config {
-  static const String baseUrl = 'https://f43e-180-253-165-63.ap.ngrok.io/api';
-  static const String url = 'https://f43e-180-253-165-63.ap.ngrok.io';
+  static const String baseUrl = 'https://majestic-banyuangi.ws-tif.com/api/api';
+  static const String url = 'https://majestic-banyuangi.ws-tif.com/api/images';
 
   static String convertToIdr(dynamic number, int decimalDigit) {
     NumberFormat currencyFormatter = NumberFormat.currency(

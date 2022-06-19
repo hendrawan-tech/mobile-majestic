@@ -2,8 +2,8 @@ import 'package:majestic/models/auth_model.dart';
 
 class LikeModel {
   int? id;
-  int? userId;
-  int? postId;
+  String? userId;
+  String? postId;
   String? createdAt;
   String? updatedAt;
   AuthModel? user;

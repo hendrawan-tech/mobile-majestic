@@ -365,6 +365,7 @@ class _DetailPageState extends State<DetailPage> {
                                 showModalBottomSheet(
                                   enableDrag: false,
                                   context: context,
+                                  isScrollControlled: true,
                                   builder: (BuildContext context) {
                                     return BottomSheet(
                                       onClosing: () {},

@@ -22,4 +22,15 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> register({String? name, String? email, String? password}) async {
+    try {
+      AuthModel data = await AuthService()
+          .register(name: name, email: email, password: password);
+      _user = data;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

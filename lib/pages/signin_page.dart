@@ -179,7 +179,7 @@ class _SigninPageState extends State<SigninPage> {
               ),
             ),
             GestureDetector(
-              onTap: handleLogin,
+              onTap: () => Navigator.pushNamed(context, '/signup'),
               child: const Text(
                 " Sign Up",
                 style: TextStyle(

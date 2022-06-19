@@ -1,10 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:majestic/pages/signin_page.dart';
+import 'package:majestic/providers/auth_provider.dart';
+import 'package:majestic/widgets/loading_btn_widget.dart';
+import 'package:provider/provider.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleLogin() async {
+      setState(() {
+        isLoading = true;
+      });
+
+      if (await authProvider.register(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      )) {
+        FocusManager.instance.primaryFocus?.unfocus();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SigninPage()),
+        );
+      } else {
+        FocusManager.instance.primaryFocus?.unfocus();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Register Gagal!",
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     Widget emailInput() {
       return Container(
         margin: const EdgeInsets.only(top: 10, right: 40, left: 40),
@@ -33,6 +80,7 @@ class SignupPage extends StatelessWidget {
               ),
               child: Expanded(
                 child: TextFormField(
+                  controller: _emailController,
                   style: const TextStyle(
                     fontSize: 14,
                   ),
@@ -54,7 +102,7 @@ class SignupPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Username",
+              "Name",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
@@ -75,12 +123,12 @@ class SignupPage extends StatelessWidget {
               ),
               child: Expanded(
                 child: TextFormField(
+                  controller: _nameController,
                   style: const TextStyle(
                     fontSize: 14,
                   ),
-                  obscureText: true,
                   decoration: const InputDecoration.collapsed(
-                    hintText: "Enter your password",
+                    hintText: "Enter Full Name",
                   ),
                 ),
               ),
@@ -118,6 +166,7 @@ class SignupPage extends StatelessWidget {
               ),
               child: Expanded(
                 child: TextFormField(
+                  controller: _passwordController,
                   style: const TextStyle(
                     fontSize: 14,
                   ),
@@ -142,9 +191,9 @@ class SignupPage extends StatelessWidget {
         height: 48,
         width: double.infinity,
         child: TextButton(
-          onPressed: () {},
+          onPressed: handleLogin,
           child: const Text(
-            'Sign In',
+            'Sign Up',
             style: TextStyle(
               color: Colors.black,
               fontSize: 16,
@@ -233,7 +282,7 @@ class SignupPage extends StatelessWidget {
             usernameInput(),
             emailInput(),
             passwordInput(),
-            buttonSignin(),
+            isLoading ? const LoadingBtnWidget() : buttonSignin(),
             const Spacer(),
             footer(),
           ],

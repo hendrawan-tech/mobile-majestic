@@ -58,17 +58,45 @@ class _OrderPageState extends State<OrderPage> with TickerProviderStateMixin {
             child: TabBarView(
               controller: _tabController,
               children: [
-                ListView(
-                  children: orderProvider.products
-                      .map(
-                        (item) => CardOrder(
-                          order: item,
-                        ),
-                      )
-                      .toList(),
+                ListView.builder(
+                  itemCount: orderProvider.products.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    if (i == orderProvider.products.length - 1) {
+                      return Column(
+                        children: [
+                          CardOrder(
+                            order: orderProvider.products[i],
+                          ),
+                          SizedBox(
+                            height: 200,
+                          ),
+                        ],
+                      );
+                    }
+                    return CardOrder(
+                      order: orderProvider.products[i],
+                    );
+                  },
                 ),
-                Column(
-                  children: const [Text("data 2")],
+                ListView.builder(
+                  itemCount: orderProvider.productsDone.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    if (i == orderProvider.productsDone.length - 1) {
+                      return Column(
+                        children: [
+                          CardOrder(
+                            order: orderProvider.productsDone[i],
+                          ),
+                          SizedBox(
+                            height: 200,
+                          ),
+                        ],
+                      );
+                    }
+                    return CardOrder(
+                      order: orderProvider.productsDone[i],
+                    );
+                  },
                 ),
               ],
             ),

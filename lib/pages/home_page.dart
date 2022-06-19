@@ -74,6 +74,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             .getProducts(
                           id: authProvider.user!.id.toString(),
                         );
+                        await Provider.of<OrderProvider>(context, listen: false)
+                            .getProductsDone(
+                          id: authProvider.user!.id.toString(),
+                        );
                         Navigator.pushNamed(context, '/order');
                       },
                       icon: const Icon(
