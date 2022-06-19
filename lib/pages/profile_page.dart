@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:majestic/config.dart';
 import 'package:provider/provider.dart';
 import 'package:majestic/models/auth_model.dart';
 import 'package:majestic/providers/auth_provider.dart';
@@ -46,7 +47,13 @@ class ProfilePage extends StatelessWidget {
                           ),
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage('${user!.profile}'),
+                            image: NetworkImage(
+                              user!.profilePhotoPath == null
+                                  ? user.profile.toString()
+                                  : Config.url +
+                                      '/' +
+                                      user.profilePhotoPath.toString(),
+                            ),
                           ),
                         ),
                       ),
@@ -64,8 +71,7 @@ class ProfilePage extends StatelessWidget {
                   color: const Color(0xFF9FA3A2),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
                   onPressed: (() =>
                       Navigator.pushNamed(context, '/update-profile')),
@@ -131,12 +137,15 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  const Text(
-                    "Logout",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
+                  GestureDetector(
+                    onTap: () => Navigator.pushReplacementNamed(context, '/signin'),
+                    child: const Text(
+                      "Logout",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                      ), 
                     ),
                   ),
                   const SizedBox(

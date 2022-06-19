@@ -33,4 +33,24 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> update({
+    String? name,
+    String? id,
+    String? phoneNumber,
+    String? file,
+  }) async {
+    try {
+      AuthModel data = await AuthService().update(
+        name: name,
+        file: file,
+        id: id,
+        phoneNumber: phoneNumber,
+      );
+      _user = data;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

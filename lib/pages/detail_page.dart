@@ -752,7 +752,11 @@ class _DetailPageState extends State<DetailPage> {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              '${user!.profile}',
+                              user!.profilePhotoPath == null
+                                  ? user.profile.toString()
+                                  : Config.url +
+                                      '/' +
+                                      user.profilePhotoPath.toString(),
                             ),
                           ),
                         ),

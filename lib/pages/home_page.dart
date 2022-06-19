@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:majestic/config.dart';
 import 'package:majestic/providers/event_provider.dart';
 import 'package:majestic/providers/order_provider.dart';
 import 'package:majestic/widgets/card_event.dart';
@@ -62,7 +63,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage('${user!.profile}'),
+                            image: NetworkImage(
+                              user!.profilePhotoPath == null
+                                  ? user.profile.toString()
+                                  : Config.url +
+                                      '/' +
+                                      user.profilePhotoPath.toString(),
+                            ),
                           ),
                         ),
                       ),
@@ -133,22 +140,64 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: destinationProvider.products
-                            .map(
-                              (destination) => CardWidget(destination, user),
-                            )
-                            .toList(),
-                      ),
+                    // Column(
+                    //   children: destinationProvider.products
+                    //       .map(
+                    //         (destination) => CardWidget(destination, user),
+                    //       )
+                    //       .toList(),
+                    // ),
+                    ListView.builder(
+                      itemCount: destinationProvider.products.length,
+                      itemBuilder: (BuildContext context, int i) {
+                        if (i == destinationProvider.products.length - 1) {
+                          return Column(
+                            children: [
+                              CardWidget(
+                                destinationProvider.products[i],
+                                user,
+                              ),
+                              SizedBox(
+                                height: 300,
+                              ),
+                            ],
+                          );
+                        }
+                        return CardWidget(
+                          destinationProvider.products[i],
+                          user,
+                        );
+                      },
                     ),
-                    Column(
-                      children: eventProvider.products
-                          .map(
-                            (event) => CardEvent(event, user),
-                          )
-                          .toList(),
+                    ListView.builder(
+                      itemCount: eventProvider.products.length,
+                      itemBuilder: (BuildContext context, int i) {
+                        if (i == eventProvider.products.length - 1) {
+                          return Column(
+                            children: [
+                              CardWidget(
+                                eventProvider.products[i],
+                                user,
+                              ),
+                              SizedBox(
+                                height: 300,
+                              ),
+                            ],
+                          );
+                        }
+                        return CardWidget(
+                          eventProvider.products[i],
+                          user,
+                        );
+                      },
                     ),
+                    // Column(
+                    //   children: eventProvider.products
+                    //       .map(
+                    //         (event) => CardEvent(event, user),
+                    //       )
+                    //       .toList(),
+                    // ),
                   ],
                 ),
               )
